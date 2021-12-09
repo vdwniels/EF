@@ -16,28 +16,22 @@ namespace ParkBusinessLayer.Model
         public Park Park { get; private set; }
         private Dictionary<Huurder,List<Huurcontract>> _huurcontracten = new  Dictionary<Huurder, List<Huurcontract>>();
 
-        public Huis(int id, string straat, int nr, Park park, Dictionary<Huurder, List<Huurcontract>> huurcontracten)
+        public Huis(int id, string straat, int nr, bool actief, Park park, Dictionary<Huurder, List<Huurcontract>> huurcontracten)
+            : this(id, straat, nr, actief, park)
         {
-            Id = id;
-            Straat = straat;
-            Nr = nr;
-            Park = park;
             _huurcontracten = huurcontracten;
         }
         public Huis(string straat, int nr, Park park)
         {
-            Straat = straat;
-            Nr = nr;
+            ZetStraat(straat);
+            ZetNr(nr);
             Park = park;
             Actief = true;
         }
-        public Huis(int id, string straat, int nr, bool actief, Park park)
+        public Huis(int id, string straat, int nr, bool actief, Park park) : this(straat, nr, park)
         {
-            Id = id;
-            Straat = straat;
-            Nr = nr;
+            ZetId(id);
             Actief = actief;
-            Park = park;
         }
 
         public IReadOnlyList<Huurcontract> Huurcontracten()
@@ -90,6 +84,11 @@ namespace ParkBusinessLayer.Model
         {
             if (huurcontracten == null) throw new ParkException("zetcontracten");
             _huurcontracten = huurcontracten;
+        }
+        public void ZetId(int id)
+        {
+            if (id <= 0) throw new ParkException("zetid");
+            Id = id;
         }
     }
 }

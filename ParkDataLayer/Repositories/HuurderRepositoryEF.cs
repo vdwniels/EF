@@ -32,7 +32,7 @@ namespace ParkDataLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public void VoegHuurderToe(Huurder h)
+        public Huurder VoegHuurderToe(Huurder h)
         {
             throw new NotImplementedException();
         }

@@ -11,13 +11,28 @@ namespace ParkBusinessLayer.Model
 
         public Huurder(int id, string naam, Contactgegevens contactgegevens)
         {
-            Id = id;
-            Naam = naam;
-            Contactgegevens = contactgegevens;
+            ZetId(id);
+            ZetNaam(naam);
+            ZetContactgegevens(contactgegevens);
         }
         public Huurder(string naam, Contactgegevens contactgegevens)
         {
+            ZetNaam(naam);
+            ZetContactgegevens(contactgegevens);
+        }
+        public void ZetId(int id)
+        {
+            if (id <= 0) throw new ParkException("huurder - zetid");
+            Id = id;
+        }
+        public void ZetNaam(string naam)
+        {
+            if (string.IsNullOrWhiteSpace(Naam)) throw new ParkException("huurder zetnaam");
             Naam = naam;
+        }
+        public void ZetContactgegevens(Contactgegevens contactgegevens)
+        {
+            if (contactgegevens == null) throw new ParkException("Huurder zetcontactgegevens");
             Contactgegevens = contactgegevens;
         }
     }

@@ -10,20 +10,26 @@ namespace ParkBusinessLayer.Model
         public string Locatie { get; private set; }
         private List<Huis> _huis =new List<Huis>(){ };
 
-        public Park(string id, string naam, string locatie, List<Huis> huis)
+        public Park(string id, string naam, string locatie, List<Huis> huis) : this(id,naam,locatie)
         {
-            Id = id;
-            Naam = naam;
-            Locatie = locatie;
             _huis = huis;
         }
         public Park(string id, string naam, string locatie)
         {
-            Id = id;
-            Naam = naam;
+            ZetId(id);
+            ZetNaam(naam);
             Locatie = locatie;
         }
-
+        public void ZetId(string id)
+        {
+            if (string.IsNullOrWhiteSpace(Id)) throw new ParkException("Park zetid");
+            Id = id;
+        }
+        public void ZetNaam(string naam)
+        {
+            if (string.IsNullOrWhiteSpace(naam)) throw new ParkException("Park zetnaam");
+            Naam = naam;
+        }
         public IReadOnlyList<Huis> Huizen()
         {
             return _huis.AsReadOnly();

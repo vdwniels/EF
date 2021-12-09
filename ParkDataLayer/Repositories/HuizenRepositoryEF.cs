@@ -26,7 +26,7 @@ namespace ParkDataLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public void VoegHuisToe(Huis h)
+        public Huis VoegHuisToe(Huis h)
         {
             throw new NotImplementedException();
         }

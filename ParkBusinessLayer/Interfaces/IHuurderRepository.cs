@@ -9,7 +9,7 @@ namespace ParkBusinessLayer.Interfaces
 {
     public interface IHuurderRepository
     {
-        void VoegHuurderToe(Huurder h);
+        Huurder VoegHuurderToe(Huurder h);
         bool HeeftHuurder(string naam, Contactgegevens contact);
         bool HeeftHuurder(int id);
         void UpdateHuurder(Huurder huurder);
