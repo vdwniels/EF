@@ -14,7 +14,7 @@ namespace ParkDataLayer.Model
     {
         [Key]
         [Column(TypeName = "nvarchar(20)")]
-        public string Id { get; private set; }
+        public string ParkId { get; private set; }
         [Required]
         [Column(TypeName = "nvarchar(250)")]
         public string Naam { get; private set; }
@@ -22,9 +22,9 @@ namespace ParkDataLayer.Model
         public string Locatie { get; private set; }
         public  List<EF_Huis> _huis = new List<EF_Huis>() { };
 
-        public EF_Park(string id, string naam, string locatie)
+        public EF_Park(string parkId, string naam, string locatie)
         {
-            Id = id;
+            ParkId = parkId;
             Naam = naam;
             Locatie = locatie;
         }

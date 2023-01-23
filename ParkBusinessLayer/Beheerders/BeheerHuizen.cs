@@ -61,7 +61,9 @@ namespace ParkBusinessLayer.Beheerders
         {
             try
             {
-                return repo.GeefHuis(id);
+                Huis h = repo.GeefHuis(id);
+                h.ZetId(id);
+                return h;
             }
             catch (Exception ex)
             {

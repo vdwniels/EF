@@ -15,7 +15,7 @@ namespace ParkDataLayer.Mappers
         {
             try
             {
-                Park p = new Park(db.Id, db.Naam, db.Locatie);
+                Park p = new Park(db.ParkId, db.Naam, db.Locatie);
                 foreach (EF_Huis hdb in db._huis)
                 {
                     Huis h = MapHuis.MapNaarDomein(hdb);

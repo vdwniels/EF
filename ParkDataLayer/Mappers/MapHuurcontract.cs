@@ -11,11 +11,11 @@ namespace ParkDataLayer.Mappers
 {
     public static class MapHuurcontract
     {
-        public static Huurcontract MapNaarDomein(EF_Huurcontract db)
+        public static Huurcontract MapNaarDomein(EF_Huurcontract db, EF_Park p)
         {
             try
             {
-                return new Huurcontract(db.Id,new Huurperiode(db.StartDatum,db.Aantaldagen),MapHuurder.MapNaarDomein(db.Huurder),MapHuis.MapNaarDomein(db.Huis));
+                return new Huurcontract(db.Id,new Huurperiode(db.StartDatum,db.Aantaldagen),MapHuurder.MapNaarDomein(db.Huurder),MapHuis.MapNaarDomein(db.Huis, p));
             }
             catch (Exception ex)
             {
@@ -27,8 +27,10 @@ namespace ParkDataLayer.Mappers
         {
             try
             {
-
-                return new EF_Huurcontract(huurcontract.Id,huurcontract.Huurperiode.StartDatum,huurcontract.Huurperiode.EindDatum,huurcontract.Huurperiode.Aantaldagen,huurcontract.Huurder.Id,MapHuurder.MapNaarDB(huurcontract.Huurder),huurcontract.Huis.Id,MapHuis.MapNaarDB(huurcontract.Huis));
+                EF_Huurcontract resultaat = new EF_Huurcontract(huurcontract.Id, huurcontract.Huurperiode.StartDatum, huurcontract.Huurperiode.EindDatum, huurcontract.Huurperiode.Aantaldagen, huurcontract.Huurder.Id, huurcontract.Huis.Id);
+                resultaat.AddHuis(huurcontract.Huis);
+                resultaat.AddHuurder(huurcontract.Huurder);
+                return resultaat;
             }
             catch (Exception ex)
             {

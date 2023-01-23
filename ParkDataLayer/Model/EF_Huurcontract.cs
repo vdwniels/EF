@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ParkBusinessLayer.Model;
+using ParkDataLayer.Mappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,16 +15,14 @@ namespace ParkDataLayer.Model
 
     public class EF_Huurcontract
     {
-        public EF_Huurcontract(string id, DateTime startDatum, DateTime eindDatum, int aantaldagen, int huurderId, EF_Huurder huurder, int huisId, EF_Huis huis)
+        public EF_Huurcontract(string id, DateTime startDatum, DateTime eindDatum, int aantaldagen, int huurderId, int huisId)
         {
             Id = id;
             StartDatum = startDatum;
             EindDatum = eindDatum;
             Aantaldagen = aantaldagen;
             HuurderId = huurderId;
-            Huurder = huurder;
             HuisId = huisId;
-            Huis = huis;
         }
 
         [Key]
@@ -39,6 +38,18 @@ namespace ParkDataLayer.Model
         public EF_Huurder Huurder { get; private set; }
         public int HuisId { get; set; }
         public EF_Huis Huis { get; private set; }
+
+        public void AddHuurder(Huurder huurder)
+        {
+            EF_Huurder efhuurder = MapHuurder.MapNaarDB(huurder);
+            Huurder = efhuurder;
+        }
+
+        public void AddHuis(Huis huis)
+        {
+            EF_Huis efhuis = MapHuis.MapNaarDBZonderPark(huis);
+            Huis = efhuis;
+        }
 
     }
 }

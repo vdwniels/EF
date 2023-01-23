@@ -12,7 +12,7 @@ namespace ParkDataLayer.Repositories
 {
     public class ContractenRepositoryEF : IContractenRepository
     {
-        private HuurContext ctx;
+        private HuurContext ctx = new HuurContext();
         public void AnnuleerContract(Huurcontract contract)
         {
             try
@@ -30,7 +30,7 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
-                return MapHuurcontract.MapNaarDomein(ctx.Huurcontract.Where(x => x.Id == id).AsNoTracking().FirstOrDefault());
+                return MapHuurcontract.MapNaarDomein(ctx.Huurcontract.Where(x => x.Id == id).Include(x => x.Huurder).Include(x => x.Huis).Include(x => x.Huis.Park).AsNoTracking().FirstOrDefault(), ctx.Huurcontract.Where(x => x.Id == id).Select(x => x.Huis.Park).AsNoTracking().FirstOrDefault());
             }
             catch(Exception ex)
             {
@@ -42,7 +42,11 @@ namespace ParkDataLayer.Repositories
         {
             try
             {
-                return ctx.Huurcontract.Select(x => MapHuurcontract.MapNaarDomein(x)).ToList();
+                if (!dtEinde.HasValue)
+                {
+                    return ctx.Huurcontract.Where(x => x.StartDatum >= dtBegin).AsNoTracking().Include(x => x.Huurder).Include(x => x.Huis).Include(x => x.Huis.Park).Select(x => MapHuurcontract.MapNaarDomein(x,x.Huis.Park)).ToList();
+                }
+                else return ctx.Huurcontract.Where(x => x.StartDatum >= dtBegin && x.EindDatum<= dtEinde).AsNoTracking().Include(x => x.Huurder).Include(x => x.Huis).Include(x => x.Huis.Park).Select(x => MapHuurcontract.MapNaarDomein(x, x.Huis.Park)).ToList();
             }
             catch (Exception ex)
             {

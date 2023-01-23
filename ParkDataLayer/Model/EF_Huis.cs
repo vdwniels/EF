@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ParkBusinessLayer.Model;
+using ParkDataLayer.Mappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,9 +16,9 @@ namespace ParkDataLayer.Model
     public class EF_Huis
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; private set; }
+        public int Id { get;  set; }
         [Column(TypeName = "nvarchar(250)")]
-        public string Straat { get; private set; }
+        public string Straat { get;  set; }
         [Required]
         public int Nr { get; private set; }
         [Required]
@@ -25,17 +26,24 @@ namespace ParkDataLayer.Model
         [Required]
         [Column(TypeName = "nvarchar(20)")]
         public string ParkId { get; set; }
-        public EF_Park Park { get; private set; }
+        public EF_Park Park { get;  set; }
         private List<EF_Huurcontract> _huur = new List<EF_Huurcontract>() { };
 
-        public EF_Huis(int id, string straat, int nr, bool actief, string parkId, EF_Park park)
+        public EF_Huis(int id, string straat, int nr, bool actief, string parkId)
         {
             Id = id;
             Straat = straat;
             Nr = nr;
             Actief = actief;
             ParkId = parkId;
-            Park = park;
+        }
+
+        public EF_Huis(string straat, int nr, bool actief, string parkId)
+        {
+            Straat = straat;
+            Nr = nr;
+            Actief = actief;
+            ParkId = parkId;
         }
 
         public void AddHuurcontract(EF_Huurcontract hc)
@@ -43,5 +51,10 @@ namespace ParkDataLayer.Model
             _huur.Add(hc);
         }
 
+        public void AddPark(Park park)
+        {
+            EF_Park efpark = MapPark.MapNaarDB(park);
+            Park = efpark;
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace ParkBusinessLayer.Beheerders
             {
                 Huurcontract contract = new Huurcontract(id,huurperiode,huurder,huis);
                 if (repo.HeeftContract(huurperiode.StartDatum, huurder.Id, huis.Id)) 
-                    throw new BeheerderException("Maakcontract bestaat al");
+                    throw new BeheerderException("contract bestaat al");
                 repo.VoegContractToe(contract);
             }
             catch (Exception ex)
